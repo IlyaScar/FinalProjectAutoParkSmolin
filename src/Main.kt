@@ -98,7 +98,7 @@ interface PassengerTransport {
     //иначе вычитаем из текущего количества пассажиров, количество высаживаемых пассажиров
     fun unboard(count: Int): Int {
         if (count > currentPassengers) {
-            throw IllegalArgumentException("Нельзя высадить $count чел., так как в салоне всего $currentPassengers")
+            throw IllegalArgumentException("There are more passengers then can exit a vehicle")
         }
         currentPassengers -= count
         return currentPassengers
