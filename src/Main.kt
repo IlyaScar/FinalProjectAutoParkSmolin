@@ -10,16 +10,19 @@ fun main() {
     val cargoCar2 = Truck("KKK-8499", "Toyota", 1980,2500,workingStatus = false)
     val cargoCar3 = Truck("TTT-8299", "Audi", 1979,800,workingStatus = true)
     val schoolBus = Bus("PPP-2534","Lada",1970,1000,workingStatus = true)
+    /** Тут хорошо использовать скоуп функцию with */
     heavyTransport.addVehicle(cargoCar)
     heavyTransport.addVehicle(cargoCar2)
     heavyTransport.addVehicle(cargoCar3)
     lightTransport.addVehicle(taxiCar)
     lightTransport.addVehicle(taxiCar2)
+    /** Название  allTransports не отражает того что тут лежит, лучше allVehicleFleets*/
     val allTransports = listOf(heavyTransport,lightTransport)
     val theMostRecent = allTransports.findNewestVehicle()
     val biggestAmountOfPassengers = allTransports.findMaxPassengerVehicle()
     val passengerOnBoard = taxiCar.board(1)
     val passengerExit = schoolBus.unboard(9)
+    /** Тоже название load ниочем не говорит */
     val load = heavyTransport.getAllTrucksMaxLoad()
     println(load)
     println(passengerOnBoard)
@@ -27,8 +30,10 @@ fun main() {
     val carWorking = heavyTransport.getVehicles()
         .filterIsInstance<Truck>()
         .find { it.workingStatus }
+    /** Проверку на null лучше выше делать через элвис оператор  и выбрасывать VechicleException */
     if (carWorking != null) {
         try {
+            /** "Загружать" транспорт в println вообще не видно по коду, это вполе себе отдельная опреция. не надо ее сразу в вывод пихать */
             println("Working car was found ${carWorking.transportModel} ${carWorking.load(4.0)} ")
         } catch (e: Exception) {
             println("Can't load cargo")
@@ -37,6 +42,7 @@ fun main() {
         println("There are no working heavy vehicles")
     }
     println(carWorking)
+    /** ну а если carWorking=null это и выведем? оно же вообще не будет понятно */
     val curLoad = carWorking?.load(24.00)
     println(curLoad)
 }
@@ -117,6 +123,7 @@ interface CargoTransport {
     //создаем переменную убранный вес что бы ее вернуть и обнуляем текущий вес
     fun unload(): Double {
         val removedWeight = currentLoad
+        /** тут после return у тебя вообще ниче не выполнится, работает функция неверно */
         return removedWeight
         currentLoad = 0.0
     }
